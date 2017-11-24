@@ -12,17 +12,40 @@ concept Address {
     o String zip
 }
 
-participant Member identified by email {
-    o String email
-    o String firstName
-    o String lastName
-    o DateTime dob optional
-    o Address address optional
-    o String[] authorized optional
+concept HealthData {
+    o String allergies
+    o String hospital
+    o String illnesses
+    o String currentTreatments
+    o String vaccination
 }
 
+abstract participant User identified by email {
+    o String email
+    o Address address optional
+}
+
+
+participant Patient extends User{
+    o String firstName
+    o String lastName
+    o DateTime dateOfBirth
+    o HealthData healthData
+    
+}
+
+participant Doctors extends User{
+    o String firstName
+    o String lastName
+    o String[] authorized
+}
+
+
+
+
+
 abstract transaction MemberTransaction {
-    o String memberId    
+    o String userId    
 }
 
 transaction AuthorizeAccess extends MemberTransaction {
