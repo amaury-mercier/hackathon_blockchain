@@ -29,8 +29,8 @@ participant Patient extends User{
     o String lastName
     o DateTime dateOfBirth
     o HealthData healthData
-    o Report[] reports
-    o String[] authorized /* Users authorized by the Patient */
+    o Report[] reports optional
+    o String[] authorized optional /* Users authorized by the Patient */
 }
 
 participant Doctors extends User{
