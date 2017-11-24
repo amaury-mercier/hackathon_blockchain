@@ -3,15 +3,7 @@
  */
 namespace org.healthcare.records
 
-concept Address {
-    o String street
-    o String house
-    o String city
-    o String county
-    o String country
-    o String zip
-}
-
+/* Current medical situation of a patient. */
 concept HealthData {
     o String allergies
     o String hospital
@@ -20,17 +12,16 @@ concept HealthData {
     o String vaccination
 }
 
-concept Report identified by reportId {
+/* element of the medical folder of the patient. */
+concept Report {
     o String text
+    o String title
     o DateTime timestamp
-    o String userId
     o String authorId
-    o String reportId
 }
 
 abstract participant User identified by email {
     o String email
-    o Address address optional
 }
 
 participant Patient extends User{
@@ -38,7 +29,8 @@ participant Patient extends User{
     o String lastName
     o DateTime dateOfBirth
     o HealthData healthData
-    o String[] authorized
+    o Report[] reports
+    o String[] authorized /* Users authorized by the Patient */
 }
 
 participant Doctors extends User{
@@ -46,25 +38,33 @@ participant Doctors extends User{
     o String lastName
 }
 
-abstract transaction MemberTransaction {
+abstract transaction UserTransaction {
     o String userId
 }
 
-transaction AuthorizeAccess extends MemberTransaction {
+transaction AuthorizeAccess extends UserTransaction {
 }
 
-transaction RevokeAccess extends MemberTransaction {
+transaction RevokeAccess extends UserTransaction {
 }
 
-abstract transaction ReportTransaction {
-    o String 
+transaction addReport extends UserTransaction {
+    o String text
+    o String title
 }
 
-transaction addReport {    
+transaction updateSummary extends UserTransaction {
+    o String allergies optional
+    o String hospital optional
+    o String illnesses optional
+    o String currentTreatments optional
+    o String vaccination optional
 }
 
-transaction removeReport
+transaction removeReport {
+    o DateTime timestamp
+}
 
-event MemberEvent {
-    o MemberTransaction memberTransaction
+event UserEvent {
+    o UserTransaction userTransaction
 }
