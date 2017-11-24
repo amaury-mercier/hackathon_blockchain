@@ -2,5 +2,5 @@
 query selectMembers {
   description: "Select all members"
   statement:
-      SELECT org.acme.pii.Member
+      SELECT org.healthcare.records.Member
 }
