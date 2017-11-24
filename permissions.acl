@@ -96,6 +96,14 @@ rule NetworkAdminUser {
     action: ALLOW
 }
 
+rule ParticipantUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
 rule NetworkAdminSystem {
     description: "Grant business network administrators full access to system resources"
     participant: "org.hyperledger.composer.system.NetworkAdmin"

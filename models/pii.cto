@@ -39,7 +39,7 @@ participant Doctors extends User{
 }
 
 abstract transaction UserTransaction {
-    o User user
+    o String userId
 }
 
 transaction AuthorizeAccess extends UserTransaction {
