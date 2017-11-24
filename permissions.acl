@@ -23,9 +23,9 @@ rule RevokeAccessTransaction {
 
 rule OwnRecordFullAccess {
     description: "Allow all participants full access to their own record"
-    participant(p): "org.healthcare.records.Member"
+    participant(p): "org.healthcare.records.User"
     operation: ALL
-    resource(r): "org.healthcare.records.Member"
+    resource(r): "org.healthcare.records.User"
     condition: (r.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }

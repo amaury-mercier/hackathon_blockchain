@@ -39,7 +39,7 @@ participant Doctors extends User{
 }
 
 abstract transaction UserTransaction {
-    o String userId
+    o User user
 }
 
 transaction AuthorizeAccess extends UserTransaction {
@@ -53,18 +53,15 @@ transaction addReport extends UserTransaction {
     o String title
 }
 
-transaction updateSummary extends UserTransaction {
-    o String allergies optional
-    o String hospital optional
-    o String illnesses optional
-    o String currentTreatments optional
-    o String vaccination optional
+transaction updateHealthData extends UserTransaction {
+    o HealthData healthData
 }
 
-transaction removeReport {
-    o DateTime timestamp
-}
-
+/* 
+ *transaction removeReport {
+ *   o DateTime timestamp
+ *}
+ */
 event UserEvent {
     o UserTransaction userTransaction
 }
