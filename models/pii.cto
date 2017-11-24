@@ -20,11 +20,12 @@ concept HealthData {
     o String vaccination
 }
 
-concept Report {
+concept Report identified by reportId {
     o String text
     o DateTime timestamp
     o String userId
     o String authorId
+    o String reportId
 }
 
 abstract participant User identified by email {
@@ -54,6 +55,15 @@ transaction AuthorizeAccess extends MemberTransaction {
 
 transaction RevokeAccess extends MemberTransaction {
 }
+
+abstract transaction ReportTransaction {
+    o String 
+}
+
+transaction addReport {    
+}
+
+transaction removeReport
 
 event MemberEvent {
     o MemberTransaction memberTransaction
