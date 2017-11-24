@@ -1,5 +1,5 @@
 /**
- * A business network where members can grant/revoke access to their personal information to other members
+ * A healthcare network where members can grant/revoke access to their personal information to other members
  */
 namespace org.healthcare.records
 
@@ -20,32 +20,33 @@ concept HealthData {
     o String vaccination
 }
 
+concept Report {
+    o String text
+    o DateTime timestamp
+    o String userId
+    o String authorId
+}
+
 abstract participant User identified by email {
     o String email
     o Address address optional
 }
-
 
 participant Patient extends User{
     o String firstName
     o String lastName
     o DateTime dateOfBirth
     o HealthData healthData
-    
+    o String[] authorized
 }
 
 participant Doctors extends User{
     o String firstName
     o String lastName
-    o String[] authorized
 }
 
-
-
-
-
 abstract transaction MemberTransaction {
-    o String userId    
+    o String userId
 }
 
 transaction AuthorizeAccess extends MemberTransaction {
