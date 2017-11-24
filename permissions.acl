@@ -5,6 +5,25 @@
  * added them to their authorized list.
  */
 
+rule OwnRecordFullAccess {
+    description: "Allow all participants full access to their own data"
+    participant(p): "org.healthcare.records.User"
+    operation: ALL
+    resource(r): "org.healthcare.records.User"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule ForeignRecordConditionalAccess {
+    description: "Allow participants access to other people's data if granted"
+    participant(p): "org.healthcare.records.User"
+    operation: ALL
+    resource(r): "org.healthcare.records.User"
+    condition: (r.authorized && r.authorized.indexOf(p.getIdentifier()) > -1)
+    action: ALLOW
+}
+
+
 rule AuthorizeAccessTransaction {
     description: "Allow all participants to submit AuthorizeAccess transactions"
     participant: "ANY"
@@ -21,24 +40,45 @@ rule RevokeAccessTransaction {
     action: ALLOW
 }
 
-rule OwnRecordFullAccess {
-    description: "Allow all participants full access to their own record"
+
+rule ForeignAddReportConditionalAccess {
+    description: "Allow participants to create reports (submit addReport transactions) for other users if granted"
     participant(p): "org.healthcare.records.User"
-    operation: ALL
-    resource(r): "org.healthcare.records.User"
-    condition: (r.getIdentifier() === p.getIdentifier())
+    operation: CREATE
+    resource(r): "org.healthcare.records.addReport"
+    condition: (r.user.authorized && r.user.authorized.indexOf(p.getIdentifier()) > -1)
     action: ALLOW
 }
 
-rule ForeignRecordConditionalAccess {
-    description: "Allow participants access to other people's records if granted"
-    participant(p): "org.healthcare.records.Member"
-    operation: ALL
-    resource(r): "org.healthcare.records.Member"
-    condition: (r.authorized && r.authorized.indexOf(p.getIdentifier()) > -1)
+rule OwnAddReportFullAccess {
+    description: "Allow participants to create reports (submit addReport transactions) for themselves"
+    participant(p): "org.healthcare.records.User"
+    operation: CREATE
+    resource(r): "org.healthcare.records.addReport"
+    condition: (r.user.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
 
+
+rule ForeignUpdateHealthDataConditionalAccess {
+    description: "Allow participants to update health data (submit updateHealthData transactions) for other users if granted"
+    participant(p): "org.healthcare.records.User"
+    operation: CREATE
+    resource(r): "org.healthcare.records.updateHealthData"
+    condition: (r.user.authorized && r.user.authorized.indexOf(p.getIdentifier()) > -1)
+    action: ALLOW
+}
+
+rule OwnUpdateHealthDataFullAccess {
+    description: "Allow participants to create reports (submit updateHealthData transactions) for themselves"
+    participant(p): "org.healthcare.records.User"
+    operation: CREATE
+    resource(r): "org.healthcare.records.updateHealthData"
+    condition: (r.user.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+/*
 rule SystemACL {
   description:  "System ACL to permit all access"
   participant: "org.hyperledger.composer.system.Participant"
@@ -46,6 +86,7 @@ rule SystemACL {
   resource: "org.hyperledger.composer.system.**"
   action: ALLOW
 }
+*/
 
 rule NetworkAdminUser {
     description: "Grant business network administrators full access to user resources"

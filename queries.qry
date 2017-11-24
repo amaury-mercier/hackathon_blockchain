@@ -2,13 +2,5 @@
 query selectPatients {
   description: "Select all patients"
   statement:
-      SELECT org.healthcare.records.Patients
-}
-
-query selectPatientsHistory {
-	description: "Select history from a patient"
-	statement:
-		SELECT org.healthcare.records.Report
-			WHERE (userId == _$userId)
-
+      SELECT org.healthcare.records.Patient
 }
