@@ -40,43 +40,13 @@ rule RevokeAccessTransaction {
     action: ALLOW
 }
 
-
-rule ForeignAddReportConditionalAccess {
-    description: "Allow participants to create reports (submit addReport transactions) for other users if granted"
-    participant(p): "org.healthcare.records.User"
+/* rule FullAddReportAccess {
+    description: "Full access to addReport"
+    participant: "org.healthcare.records.Doctors"
     operation: CREATE
-    resource(r): "org.healthcare.records.addReport"
-    condition: (r.user.authorized && r.user.authorized.indexOf(p.getIdentifier()) > -1)
+    resource: "org.healthcare.records.addReport"
     action: ALLOW
-}
-
-rule OwnAddReportFullAccess {
-    description: "Allow participants to create reports (submit addReport transactions) for themselves"
-    participant(p): "org.healthcare.records.User"
-    operation: CREATE
-    resource(r): "org.healthcare.records.addReport"
-    condition: (r.user.getIdentifier() === p.getIdentifier())
-    action: ALLOW
-}
-
-
-rule ForeignUpdateHealthDataConditionalAccess {
-    description: "Allow participants to update health data (submit updateHealthData transactions) for other users if granted"
-    participant(p): "org.healthcare.records.User"
-    operation: CREATE
-    resource(r): "org.healthcare.records.updateHealthData"
-    condition: (r.user.authorized && r.user.authorized.indexOf(p.getIdentifier()) > -1)
-    action: ALLOW
-}
-
-rule OwnUpdateHealthDataFullAccess {
-    description: "Allow participants to create reports (submit updateHealthData transactions) for themselves"
-    participant(p): "org.healthcare.records.User"
-    operation: CREATE
-    resource(r): "org.healthcare.records.updateHealthData"
-    condition: (r.user.getIdentifier() === p.getIdentifier())
-    action: ALLOW
-}
+} */
 
 /*
 rule SystemACL {
